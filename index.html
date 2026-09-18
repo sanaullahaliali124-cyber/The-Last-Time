@@ -1,24 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>THE SMART MODERN PUBLIC SCHOOL QAMBER</title>
-  <script>
-    // Redirect based on auth
-    try {
-      const user = localStorage.getItem('sms_current_user');
-      if (user) {
-        window.location.replace('dashboard.html');
-      } else {
-        window.location.replace('login.html');
-      }
-    } catch {
-      window.location.replace('login.html');
-    }
-  </script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='%230a2540'/><stop offset='1' stop-color='%231a4a7a'/></linearGradient></defs><rect fill='url(%23g)' width='100' height='100' rx='18'/><circle cx='50' cy='42' r='22' fill='none' stroke='%23d4a017' stroke-width='3'/><path d='M38 48 L50 28 L62 48 Z' fill='%23d4a017'/><rect x='42' y='48' width='16' height='8' rx='1' fill='%23fff'/><text y='88' x='50' text-anchor='middle' font-size='14' fill='%23d4a017' font-family='Arial' font-weight='bold'>Q</text></svg>" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <p>Redirecting...</p>
+  <div id="loginScreen" class="login-wrapper">
+    <div class="login-card">
+      <div class="login-brand text-center mb-4">
+        <div class="school-logo mx-auto mb-3" aria-hidden="true">
+          <svg viewBox="0 0 80 80" width="72" height="72" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop stop-color="#0a2540"/><stop offset="1" stop-color="#1a4a7a"/>
+              </linearGradient>
+            </defs>
+            <rect width="80" height="80" rx="18" fill="url(#logoGrad)"/>
+            <circle cx="40" cy="34" r="18" fill="none" stroke="#d4a017" stroke-width="2.5"/>
+            <path d="M30 40 L40 22 L50 40 Z" fill="#d4a017"/>
+            <rect x="34" y="40" width="12" height="7" rx="1" fill="#fff"/>
+            <text x="40" y="68" text-anchor="middle" font-size="12" fill="#d4a017" font-family="Inter,Arial" font-weight="700">SMP</text>
+          </svg>
+        </div>
+        <h2 class="school-name">THE SMART MODERN<br>PUBLIC SCHOOL</h2>
+        <p class="school-location"><i class="fas fa-map-marker-alt me-1"></i>QAMBER</p>
+        <p class="text-muted small mb-0">School Management System</p>
+      </div>
+      <ul class="nav nav-pills nav-fill mb-4 flex-wrap" id="roleTabs">
+        <li class="nav-item"><button type="button" class="nav-link active" data-role="admin">Admin</button></li>
+        <li class="nav-item"><button type="button" class="nav-link" data-role="principal">Principal</button></li>
+        <li class="nav-item"><button type="button" class="nav-link" data-role="teacher">Teacher</button></li>
+        <li class="nav-item"><button type="button" class="nav-link" data-role="accountant">Accountant</button></li>
+        <li class="nav-item"><button type="button" class="nav-link" data-role="student">Student</button></li>
+        <li class="nav-item"><button type="button" class="nav-link" data-role="parent">Parent</button></li>
+      </ul>
+      <form id="loginForm" autocomplete="on">
+        <div class="mb-3">
+          <label class="form-label" id="loginLabel">Email / Username</label>
+          <input type="text" class="form-control" id="loginUser" required placeholder="Enter credentials" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <div class="input-group">
+            <input type="password" class="form-control" id="loginPass" required placeholder="Password" />
+            <button type="button" class="btn btn-outline-secondary" id="togglePass" aria-label="Show password"><i class="fas fa-eye"></i></button>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="rememberMe" />
+            <label class="form-check-label" for="rememberMe">Remember me</label>
+          </div>
+          <a href="#" class="small text-primary" id="forgotLink">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 py-2">Sign In</button>
+      </form>
+      <div id="loginError" class="alert alert-danger mt-3 d-none" role="alert"></div>
+      <div class="mt-4 text-center small text-muted demo-creds">
+        <p class="mb-1 fw-semibold">Demo Accounts</p>
+        <p class="mb-0">Admin: <code>admin</code> / <code>admin123</code></p>
+        <p class="mb-0">Principal: <code>principal</code> / <code>prin123</code></p>
+        <p class="mb-0">Teacher: <code>teacher1</code> / <code>teacher123</code></p>
+        <p class="mb-0">Accountant: <code>accountant</code> / <code>acc123</code></p>
+        <p class="mb-0">Student: <code>STU001</code> / <code>1234</code> · Parent: <code>parent1</code> / <code>parent123</code></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="app" class="d-none">
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="school-logo-sm" aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="#0a2540"/>
+            <circle cx="20" cy="16" r="9" fill="none" stroke="#d4a017" stroke-width="1.8"/>
+            <path d="M15 19 L20 10 L25 19 Z" fill="#d4a017"/>
+            <rect x="17" y="19" width="6" height="3.5" rx="0.5" fill="#fff"/>
+            <text x="20" y="34" text-anchor="middle" font-size="6" fill="#d4a017" font-family="Arial" font-weight="700">SMP</text>
+          </svg>
+        </div>
+        <div>
+          <div class="sidebar-title">SMART MODERN</div>
+          <div class="sidebar-sub">Public School · Qamber</div>
+        </div>
+        <button type="button" class="btn btn-sm btn-link text-white d-lg-none" id="closeSidebar" aria-label="Close menu"><i class="fas fa-times"></i></button>
+      </div>
+      <nav class="sidebar-nav" id="sidebarNav" aria-label="Main navigation"></nav>
+      <div class="sidebar-footer">
+        <a href="#" id="whatsappSchool" class="btn btn-success btn-sm w-100 mb-2" target="_blank" rel="noopener">
+          <i class="fab fa-whatsapp me-2"></i>WhatsApp School
+        </a>
+        <button type="button" class="btn btn-outline-light btn-sm w-100" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="topbar">
+        <button type="button" class="btn btn-link d-lg-none" id="openSidebar" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+        <div class="search-box d-none d-md-flex">
+          <i class="fas fa-search"></i>
+          <input type="search" id="globalSearch" placeholder="Search students, teachers, fees..." aria-label="Global search" />
+        </div>
+        <div class="topbar-right">
+          <a href="#" id="waQuick" class="btn btn-link text-success d-none d-sm-inline" title="WhatsApp School" target="_blank" rel="noopener"><i class="fab fa-whatsapp fa-lg"></i></a>
+          <div class="dropdown">
+            <button type="button" class="btn btn-link position-relative" id="notifBtn" data-bs-toggle="dropdown" aria-label="Notifications">
+              <i class="fas fa-bell"></i>
+              <span class="badge bg-danger notif-badge d-none" id="notifCount">0</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end notif-dropdown" id="notifList"></ul>
+          </div>
+          <div class="user-info dropdown">
+            <button type="button" class="btn btn-link d-flex align-items-center gap-2" data-bs-toggle="dropdown">
+              <div class="avatar" id="userAvatar">A</div>
+              <div class="d-none d-sm-block text-start">
+                <div class="user-name" id="userName">Admin</div>
+                <div class="user-role" id="userRole">Administrator</div>
+              </div>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#" data-page="settings"><i class="fas fa-cog me-2"></i>Settings</a></li>
+              <li><a class="dropdown-item" href="#" data-page="profile"><i class="fas fa-user me-2"></i>Profile</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item text-danger" href="#" id="logoutBtn2"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <main class="page-content" id="pageContent"></main>
+    </div>
+  </div>
+
+  <div class="modal fade" id="appModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="appToast" class="toast" role="alert">
+      <div class="toast-header">
+        <strong class="me-auto" id="toastTitle">Notification</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" id="toastBody"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
