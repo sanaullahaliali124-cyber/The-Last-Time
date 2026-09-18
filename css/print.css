@@ -1,0 +1,94 @@
+/* Print Styles */
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+
+  .sidebar,
+  .topbar,
+  .sidebar-toggle,
+  .no-print,
+  .btn,
+  .filter-bar,
+  .pagination,
+  .action-btns,
+  .toast-container,
+  .modal {
+    display: none !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+  }
+
+  .content-area {
+    padding: 0 !important;
+  }
+
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    break-inside: avoid;
+  }
+
+  .stat-card {
+    break-inside: avoid;
+  }
+
+  a {
+    text-decoration: none !important;
+    color: black !important;
+  }
+
+  .table {
+    font-size: 10pt;
+  }
+
+  .table thead th {
+    background: #f0f0f0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Receipt & Report Card */
+  .print-header {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 15px;
+  }
+
+  .print-header h2 {
+    margin: 0;
+    font-size: 18pt;
+  }
+
+  .print-header p {
+    margin: 4px 0;
+    font-size: 10pt;
+  }
+
+  .signature-area {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+
+  .signature-box {
+    text-align: center;
+    width: 180px;
+  }
+
+  .signature-line {
+    border-top: 1px solid #333;
+    margin-top: 50px;
+    padding-top: 5px;
+  }
+
+  @page {
+    margin: 1.5cm;
+  }
+}
