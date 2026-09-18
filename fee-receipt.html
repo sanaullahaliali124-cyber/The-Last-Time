@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fee Receipt - THE SMART MODERN PUBLIC SCHOOL QAMBER</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/print.css" rel="stylesheet">
+  <style>
+    body { background: #f1f5f9; }
+    .receipt { max-width: 700px; margin: 30px auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .receipt-header { text-align: center; border-bottom: 2px solid #2563eb; padding-bottom: 20px; margin-bottom: 24px; }
+    .receipt-header h2 { color: #1e3a8a; margin: 0; }
+    .actions { text-align: center; margin-top: 24px; }
+    @media print { .actions { display: none; } body { background: white; } .receipt { box-shadow: none; margin: 0; } }
+  </style>
+</head>
+<body>
+  <div class="receipt" id="receipt">
+    <div class="receipt-header">
+      <h2>THE SMART MODERN PUBLIC SCHOOL QAMBER</h2>
+      <p class="mb-0 text-muted">Qamber, Pakistan · Phone: +92-300-1234567</p>
+      <p class="mb-0"><strong>FEE RECEIPT</strong></p>
+    </div>
+    <div class="row mb-3">
+      <div class="col-6"><strong>Receipt No:</strong> <span id="rInvoice">-</span></div>
+      <div class="col-6 text-end"><strong>Date:</strong> <span id="rDate">-</span></div>
+    </div>
+    <table class="table table-bordered">
+      <tr><td width="35%">Student Name</td><td id="rName">-</td></tr>
+      <tr><td>Admission No</td><td id="rAdm">-</td></tr>
+      <tr><td>Class / Section</td><td id="rClass">-</td></tr>
+      <tr><td>Fee Month</td><td id="rMonth">-</td></tr>
+      <tr><td>Fee Type</td><td id="rType">-</td></tr>
+      <tr><td>Amount</td><td id="rAmount">-</td></tr>
+      <tr><td>Discount</td><td id="rDiscount">-</td></tr>
+      <tr><td><strong>Paid Amount</strong></td><td id="rPaid"><strong>-</strong></td></tr>
+      <tr><td>Remaining</td><td id="rRemaining">-</td></tr>
+      <tr><td>Payment Method</td><td id="rMethod">-</td></tr>
+    </table>
+    <div class="row mt-5">
+      <div class="col-6 text-center">
+        <div style="border-top:1px solid #333;display:inline-block;width:150px;padding-top:5px">Accountant</div>
+      </div>
+      <div class="col-6 text-center">
+        <div style="border-top:1px solid #333;display:inline-block;width:150px;padding-top:5px">Principal</div>
+      </div>
+    </div>
+    <p class="text-center text-muted small mt-4">This is a computer-generated receipt. Demo data only.</p>
+  </div>
+  <div class="actions">
+    <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+    <button class="btn btn-secondary" onclick="window.close()">Close</button>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    const id = new URLSearchParams(window.location.search).get('id');
+    const p = getById('feePayments', id);
+    if (!p) { document.getElementById('receipt').innerHTML = '<p class="text-center p-5">Receipt not found</p>'; }
+    else {
+      const s = getById('students', p.studentId);
+      document.getElementById('rInvoice').textContent = p.invoiceNo;
+      document.getElementById('rDate').textContent = formatDate(p.paymentDate);
+      document.getElementById('rName').textContent = s ? s.fullName : '-';
+      document.getElementById('rAdm').textContent = s ? s.admissionNo : '-';
+      document.getElementById('rClass').textContent = s ? `${getClassName(s.classId)} - ${s.section}` : '-';
+      document.getElementById('rMonth').textContent = p.month;
+      document.getElementById('rType').textContent = p.feeType;
+      document.getElementById('rAmount').textContent = formatCurrency(p.amount);
+      document.getElementById('rDiscount').textContent = formatCurrency(p.discount);
+      document.getElementById('rPaid').innerHTML = `<strong>${formatCurrency(p.paidAmount)}</strong>`;
+      document.getElementById('rRemaining').textContent = formatCurrency(p.remaining);
+      document.getElementById('rMethod').textContent = p.method;
+    }
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</body>
+</html>

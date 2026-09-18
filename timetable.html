@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timetable - THE SMART MODERN PUBLIC SCHOOL QAMBER</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/responsive.css" rel="stylesheet">
+  <link href="css/print.css" rel="stylesheet">
+</head>
+<body>
+  <div class="app-wrapper">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="main-content">
+      <header class="topbar" id="topbar"></header>
+      <main class="content-area">
+        <div class="card">
+          <div class="card-header"><span id="pageHeader">Timetable</span></div>
+          <div class="card-body">
+            <div id="moduleContent"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><h5>Loading...</h5></div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/modules.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var moduleMap = {
+        staff: ['staff', 'Staff', 'staff', loadStaffModule],
+        parents: ['parents', 'Parents', 'parents', loadParentsModule],
+        classes: ['classes', 'Classes & Sections', 'classes', loadClassesModule],
+        subjects: ['subjects', 'Subjects', 'subjects', loadSubjectsModule],
+        timetable: ['timetable', 'Timetable', 'timetable', loadTimetableModule],
+        homework: ['homework', 'Homework', 'homework', loadHomeworkModule],
+        exams: ['exams', 'Exams', 'exams', loadExamsModule],
+        results: ['exams', 'Results', 'exams', loadResultsModule],
+        admissions: ['admissions', 'Admissions', 'admissions', loadAdmissionsModule],
+        leaves: ['leaves', 'Leave Management', 'leaves', loadLeavesModule],
+        notices: ['notices', 'Notices', 'notices', loadNoticesModule],
+        notifications: ['notifications', 'Notifications', 'notifications', loadNotificationsModule],
+        reports: ['reports', 'Reports', 'reports', loadReportsModule],
+        settings: ['settings', 'Settings', 'settings', loadSettingsModule]
+      };
+      var m = moduleMap['timetable'];
+      if (m) {
+        if (!requirePermission(m[0])) return;
+        initLayout(m[1], m[2]);
+        document.getElementById('pageHeader').textContent = m[1];
+        m[3]();
+      }
+    });
+  </script>
+</body>
+</html>
